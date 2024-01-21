@@ -13,6 +13,7 @@ import florma.detalleventa;
 import florma.producto;
 import florma.usuario;
 import florma.venta;
+import florma.conexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -24,30 +25,48 @@ public class ventasAdmin extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
     ArrayList<detalleventa> listDetVenta = new ArrayList<detalleventa>();
     
+    conexion cn = new conexion();
     rl_producto pro = new rl_producto();
-    //rl_venta ven = new rl_venta();
-    //rl_detalleventa dven = new rl_detalleventa();
+    rl_venta ven = new rl_venta();
+    rl_detalleventa dven = new rl_detalleventa();
     rl_usuario user = new rl_usuario();
     //rl_caje_admin cja = new rl_caje_admin();
     
-    usuario us;
+    usuario uss;
     venta v = new venta();
-    int idclien;
-    double iv, sub, AT = 0;
+    int idclien,nv;
+    double iv, sub,sum, AT = 0;
 
     public void AbsUser(usuario c) {
-        this.us = c;
+        this.uss = c;
+        txtCaje.setText(c.getApellidoPaterno()+" "+c.getApellidoMaterno()+" "+c.getNombres());
     }
     public void SeteoPrecio(){
         txtSubTotal.setText("00.00");
         txtIVA.setText("00.00");
         txtTotal.setText("00.00");
+        txtmumvent.setText(String.valueOf(nv));
+    }
+    public void SeteoAgregar_producto(){
+        entryBP.setText("");
+        entrycant.setText("");
+    }
+    public void SeteoCliente(){
+         usuario us = user.BuscarCliente2("999999999", 1);
+        if (us.getNombres() != null) {
+            
+            txtNomb.setText(us.getApellidoMaterno() + " " + us.getApellidoPaterno() + " " + us.getNombres());
+            txtCell.setText(us.getTelefono());
+            txtDirec.setText(us.getDireccion());
+            entrycedu.setText(us.getCi());
+            idclien = us.getIdPersona();
+        }
     }
     
     public void DetalleVent(int cant, producto c, Double AT) {
         detalleventa ve = new detalleventa();
         ve.setCodDVenta(0);//idAdmin
-        ve.setIdVenta(0);//idclien
+        ve.setIdVenta(nv);//idclien
         ve.setIdProducto(c.getCodigo()); //IdProducto 
         ve.setCant(cant);//cant
         ve.setTotal(AT); //total
@@ -55,9 +74,10 @@ public class ventasAdmin extends javax.swing.JFrame {
     }
 
     public void Agregartabla(producto c, int canti) {
-        AT = ((c.getPrecioVenta() * canti) + AT);
-        iv = AT * 0.12;
-        sub = AT - iv;
+        sum=c.getPrecioVenta() * canti;
+        AT = (sum + AT);//Valor Total
+        iv = AT * 0.12;//Valor IVA
+        sub = AT - iv;//Valor Subtotal
         String TT = String.valueOf(AT);
         String TI = String.valueOf(iv);
         String TS = String.valueOf(sub);
@@ -67,16 +87,18 @@ public class ventasAdmin extends javax.swing.JFrame {
         fila[2] = c.getPrecioVenta();
         fila[3] = canti;
         fila[4] = c.getPrecioVenta() * canti;
-        DetalleVent(canti, c, AT);
+        DetalleVent(canti, c, sum);
         txtSubTotal.setText(TS);
         txtIVA.setText(TI);
         txtTotal.setText(TT);
+        SeteoAgregar_producto();
         modelo.addRow(fila);
         tablaVent.setModel(modelo);
     }
 
     public ventasAdmin() {
         initComponents();
+        
         this.setLocationRelativeTo(null);
         modelo.addColumn("codigo");
         modelo.addColumn("Producto");
@@ -84,6 +106,10 @@ public class ventasAdmin extends javax.swing.JFrame {
         modelo.addColumn("Cantidad");
         modelo.addColumn("Precio Total");
         tablaVent.setModel(modelo);
+        nv = ven.obtenerIdVentaRecienGuardada()+1;
+        System.out.println(nv);
+        String tnv   = String.valueOf(nv);
+        txtmumvent.setText(tnv);
     }
 
     @SuppressWarnings("unchecked")
@@ -110,9 +136,7 @@ public class ventasAdmin extends javax.swing.JFrame {
         txtTotal = new javax.swing.JLabel();
         txtSubTotal = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        txtCaje = new javax.swing.JLabel();
         btnGuardarventa = new javax.swing.JButton();
         txtCell = new javax.swing.JLabel();
         entrycedu = new javax.swing.JTextField();
@@ -123,6 +147,8 @@ public class ventasAdmin extends javax.swing.JFrame {
         btnBuscarP = new javax.swing.JButton();
         entrycant = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        txtmumvent = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -254,14 +280,13 @@ public class ventasAdmin extends javax.swing.JFrame {
         txtSubTotal.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         txtSubTotal.setText("00.00");
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Administrador:");
 
-        jLabel3.setText("Jhon");
-
-        jLabel4.setText("Does");
-
-        jLabel5.setText("Does");
+        txtCaje.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtCaje.setForeground(new java.awt.Color(0, 0, 0));
+        txtCaje.setText("Jhon Does");
 
         btnGuardarventa.setBackground(new java.awt.Color(159, 111, 145));
         btnGuardarventa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -297,6 +322,14 @@ public class ventasAdmin extends javax.swing.JFrame {
 
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("cant");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Venta N°- ");
+
+        txtmumvent.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtmumvent.setForeground(new java.awt.Color(0, 0, 0));
+        txtmumvent.setText("1");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -352,15 +385,6 @@ public class ventasAdmin extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addComponent(entryBP, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(19, 19, 19)
@@ -368,8 +392,19 @@ public class ventasAdmin extends javax.swing.JFrame {
                         .addGap(28, 28, 28)
                         .addComponent(entrycant, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(54, 54, 54)
-                        .addComponent(btnBuscarP, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 220, Short.MAX_VALUE))
+                        .addComponent(btnBuscarP, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtmumvent, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCaje, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,13 +451,15 @@ public class ventasAdmin extends javax.swing.JFrame {
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
+                    .addComponent(txtCaje))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5))
-                .addContainerGap(77, Short.MAX_VALUE))
+                    .addComponent(txtmumvent))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -494,21 +531,33 @@ public class ventasAdmin extends javax.swing.JFrame {
         producto p = pro.BuscarProducto(nombre);
         int c = Integer.parseInt(entrycant.getText());
         // System.out.println(p.getCodigo() + "  " + p.getPrecioCompra() + "  " + p.getPrecioVenta() + " " + p.getStock() + " " + c);
-        Agregartabla(p, c);        
+        Agregartabla(p, c);      
+        
     }//GEN-LAST:event_btnBuscarPActionPerformed
 
     private void btnGuardarventaActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnGuardarventaActionPerformed
-        v.setIdCajero(us.getIdPersona());//idAdmin
+        v.setIdCajero(uss.getIdPersona());//idAdmin
         v.setIdCliente(idclien);//idclien
         v.setFecha(""); //Fecha
         v.setSubtotal(sub);//sub 
         v.setTotal(AT); //AT
-        //ven.guardarVenta(v);
+         ven.guardarVenta(v);
+         
+        
         for(int i=0;  i <listDetVenta.size(); i++){
-            System.out.println(listDetVenta.get(i).getCant());
-            System.out.println(listDetVenta.get(i).getIdProducto());
-            System.out.println(listDetVenta.get(i).getIdVenta());
-            System.out.println(listDetVenta.get(i).getTotal());
+            detalleventa den = new detalleventa();
+                den.setCant(listDetVenta.get(i).getCant()); 
+                den.setIdProducto(listDetVenta.get(i).getIdProducto());
+                den.setIdVenta(ven.obtenerIdVentaRecienGuardada());
+                den.setTotal(listDetVenta.get(i).getTotal());
+                System.out.println(den.getIdVenta());
+                System.out.println(den.getIdProducto());
+                System.out.println(den.getCant());
+                System.out.println(den.getTotal());
+            dven.guardarDetalleVenta(den);
+            SeteoPrecio();
+            SeteoCliente();
+            
         }
 
     }//GEN-LAST:event_btnGuardarventaActionPerformed
@@ -530,8 +579,6 @@ public class ventasAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -540,11 +587,13 @@ public class ventasAdmin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaVent;
+    private javax.swing.JLabel txtCaje;
     private javax.swing.JLabel txtCell;
     private javax.swing.JLabel txtDirec;
     private javax.swing.JLabel txtIVA;
     private javax.swing.JLabel txtNomb;
     private javax.swing.JLabel txtSubTotal;
     private javax.swing.JLabel txtTotal;
+    private javax.swing.JLabel txtmumvent;
     // End of variables declaration//GEN-END:variables
 }
