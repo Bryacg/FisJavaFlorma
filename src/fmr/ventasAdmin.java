@@ -45,7 +45,8 @@ public class ventasAdmin extends javax.swing.JFrame {
         txtSubTotal.setText("00.00");
         txtIVA.setText("00.00");
         txtTotal.setText("00.00");
-        txtmumvent.setText(String.valueOf(nv));
+        txtmumvent.setText(String.valueOf(nv+1));
+        
     }
     public void SeteoAgregar_producto(){
         entryBP.setText("");
@@ -61,6 +62,14 @@ public class ventasAdmin extends javax.swing.JFrame {
             entrycedu.setText(us.getCi());
             idclien = us.getIdPersona();
         }
+    }
+    public void VaciarTabla(){
+          
+       while(modelo.getRowCount()>0){
+           modelo.removeRow(0);
+       } 
+       
+       tablaVent.setModel(modelo);
     }
     
     public void DetalleVent(int cant, producto c, Double AT) {
@@ -557,6 +566,7 @@ public class ventasAdmin extends javax.swing.JFrame {
             dven.guardarDetalleVenta(den);
             SeteoPrecio();
             SeteoCliente();
+            VaciarTabla();
             
         }
 
