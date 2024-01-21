@@ -9,43 +9,70 @@ import dao.rl_detalleventa;
 import dao.rl_producto;
 import dao.rl_usuario;
 import dao.rl_venta;
+import florma.detalleventa;
 import florma.producto;
 import florma.usuario;
+import florma.venta;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class ventasAdmin extends javax.swing.JFrame {
 
     DefaultTableModel modelo = new DefaultTableModel();
+    ArrayList<detalleventa> listDetVenta = new ArrayList<detalleventa>();
+    
     rl_producto pro = new rl_producto();
-    rl_venta ven = new rl_venta();
-    rl_detalleventa dven = new rl_detalleventa();
+    //rl_venta ven = new rl_venta();
+    //rl_detalleventa dven = new rl_detalleventa();
     rl_usuario user = new rl_usuario();
-    rl_caje_admin cja = new rl_caje_admin();
-    double iv ,sub, AT=0;
-    public void Agregartabla(producto c, int cant) {
-         AT =((c.getPrecioVenta() * cant)+AT);
-         iv =AT*0.88;
-         sub = AT- iv;
-        String AS = String.valueOf(AT);
-        String AD = String.valueOf(iv);
-        String AF = String.valueOf(sub);
+    //rl_caje_admin cja = new rl_caje_admin();
+    
+    usuario us;
+    venta v = new venta();
+    int idclien;
+    double iv, sub, AT = 0;
+
+    public void AbsUser(usuario c) {
+        this.us = c;
+    }
+    public void SeteoPrecio(){
+        txtSubTotal.setText("00.00");
+        txtIVA.setText("00.00");
+        txtTotal.setText("00.00");
+    }
+    
+    public void DetalleVent(int cant, producto c, Double AT) {
+        detalleventa ve = new detalleventa();
+        ve.setCodDVenta(0);//idAdmin
+        ve.setIdVenta(0);//idclien
+        ve.setIdProducto(c.getCodigo()); //IdProducto 
+        ve.setCant(cant);//cant
+        ve.setTotal(AT); //total
+        listDetVenta.add(ve);//Agregar en la lista para despues abstraer 
+    }
+
+    public void Agregartabla(producto c, int canti) {
+        AT = ((c.getPrecioVenta() * canti) + AT);
+        iv = AT * 0.12;
+        sub = AT - iv;
+        String TT = String.valueOf(AT);
+        String TI = String.valueOf(iv);
+        String TS = String.valueOf(sub);
         Object fila[] = new Object[6];
         fila[0] = c.getCodigo();
         fila[1] = c.getNombre();
         fila[2] = c.getPrecioVenta();
-        fila[3] = cant;
-        fila[4] = c.getPrecioVenta() * cant;
-       txtSubTotal.setText( AF);
-       txtIVA.setText( AD);
-       txtTotal.setText( AS);
-        System.out.println(AT+" " +iv+" "+ sub);
+        fila[3] = canti;
+        fila[4] = c.getPrecioVenta() * canti;
+        DetalleVent(canti, c, AT);
+        txtSubTotal.setText(TS);
+        txtIVA.setText(TI);
+        txtTotal.setText(TT);
         modelo.addRow(fila);
-
         tablaVent.setModel(modelo);
-    }
-
-    public void sumarTotal() {
-        tablaVent.getColumnClass(3);
     }
 
     public ventasAdmin() {
@@ -88,10 +115,10 @@ public class ventasAdmin extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         btnGuardarventa = new javax.swing.JButton();
         txtCell = new javax.swing.JLabel();
-        entryCI = new javax.swing.JTextField();
+        entrycedu = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         txtDirec = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JLabel();
+        txtNomb = new javax.swing.JLabel();
         entryBP = new javax.swing.JTextField();
         btnBuscarP = new javax.swing.JButton();
         entrycant = new javax.swing.JTextField();
@@ -151,8 +178,8 @@ public class ventasAdmin extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 500, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnInvntario)
                 .addGap(18, 18, 18)
                 .addComponent(btnVenta)
@@ -239,15 +266,14 @@ public class ventasAdmin extends javax.swing.JFrame {
         btnGuardarventa.setBackground(new java.awt.Color(159, 111, 145));
         btnGuardarventa.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btnGuardarventa.setText("Guardar");
+        btnGuardarventa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarventaActionPerformed(evt);
+            }
+        });
 
         txtCell.setForeground(new java.awt.Color(0, 0, 0));
         txtCell.setText("Telefono");
-
-        entryCI.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryCIActionPerformed(evt);
-            }
-        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -259,19 +285,13 @@ public class ventasAdmin extends javax.swing.JFrame {
         txtDirec.setForeground(new java.awt.Color(0, 0, 0));
         txtDirec.setText("Calle S/N");
 
-        txtNombre.setForeground(new java.awt.Color(0, 0, 0));
-        txtNombre.setText("Consumidor Final");
+        txtNomb.setForeground(new java.awt.Color(0, 0, 0));
+        txtNomb.setText("Consumidor Final");
 
         btnBuscarP.setText("Buscar Producto");
         btnBuscarP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarPActionPerformed(evt);
-            }
-        });
-
-        entrycant.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entrycantActionPerformed(evt);
             }
         });
 
@@ -292,7 +312,7 @@ public class ventasAdmin extends javax.swing.JFrame {
                         .addGap(31, 31, 31)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtCell, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNomb, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(72, 72, 72)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -302,7 +322,7 @@ public class ventasAdmin extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addGap(32, 32, 32)
-                                .addComponent(entryCI, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(entrycedu, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(33, 33, 33)
                                 .addComponent(btnBuscar)))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -358,9 +378,9 @@ public class ventasAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel8)
-                    .addComponent(entryCI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(entrycedu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
-                    .addComponent(txtNombre))
+                    .addComponent(txtNomb))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -423,56 +443,75 @@ public class ventasAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnInvntarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInvntarioMouseClicked
+    private void btnInvntarioMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnInvntarioMouseClicked
         this.setVisible(false);
         ventInventario i = new ventInventario();
         i.setVisible(true);
     }//GEN-LAST:event_btnInvntarioMouseClicked
 
-    private void btnRegistoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistoMouseClicked
+    private void btnRegistoMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnRegistoMouseClicked
         this.setVisible(false);
         ventRegistroc r = new ventRegistroc();
         r.setVisible(true);
     }//GEN-LAST:event_btnRegistoMouseClicked
 
-    private void btnCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCompraMouseClicked
+    private void btnCompraMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnCompraMouseClicked
         this.setVisible(false);
         ventCompra c = new ventCompra();
         c.setVisible(true);
     }//GEN-LAST:event_btnCompraMouseClicked
 
-    private void btnVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentaMouseClicked
+    private void btnVentaMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnVentaMouseClicked
         this.setVisible(false);
         ventasAdmin v = new ventasAdmin();
         v.setVisible(true);
     }//GEN-LAST:event_btnVentaMouseClicked
 
-    private void entryCIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCIActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryCIActionPerformed
+    private void btnBuscarActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String cedu = entrycedu.getText();
+        usuario us = user.BuscarCliente2(cedu, 1);
+        if (us.getNombres() != null) {
+            
+            txtNomb.setText(us.getApellidoMaterno() + " " + us.getApellidoPaterno() + " " + us.getNombres());
+            txtCell.setText(us.getTelefono());
+            txtDirec.setText(us.getDireccion());
+            entrycedu.setText(us.getCi());
+            idclien = us.getIdPersona();
+        } else {
+            JOptionPane.showMessageDialog(null, "Cliente no existe");
+            txtNomb.setText("Consumidor Final");
+            txtCell.setText("000000000");
+            txtDirec.setText("S/C");
+            entrycedu.setText("");
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        String cedu = entryCI.getText();
-        usuario us = user.BuscarCliente2(cedu);
-        txtNombre.setText(us.getApellidoMaterno() + " " + us.getApellidoPaterno() + " " + us.getNombres());
-        txtCell.setText(us.getTelefono());
-        txtDirec.setText(us.getDireccion());
-        entryCI.setText(us.getCi());
+        }
+
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnBuscarPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarPActionPerformed
+    private void btnBuscarPActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnBuscarPActionPerformed
         String nombre = entryBP.getText();
         producto p = pro.BuscarProducto(nombre);
         int c = Integer.parseInt(entrycant.getText());
-        System.out.println(p.getCodigo() + "  " + p.getPrecioCompra() + "  " + p.getPrecioVenta() + " " + p.getStock() + " " + c);
-        Agregartabla(p, c);
+        // System.out.println(p.getCodigo() + "  " + p.getPrecioCompra() + "  " + p.getPrecioVenta() + " " + p.getStock() + " " + c);
+        Agregartabla(p, c);        
     }//GEN-LAST:event_btnBuscarPActionPerformed
 
-    private void entrycantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrycantActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrycantActionPerformed
+    private void btnGuardarventaActionPerformed(ActionEvent evt) {//GEN-FIRST:event_btnGuardarventaActionPerformed
+        v.setIdCajero(us.getIdPersona());//idAdmin
+        v.setIdCliente(idclien);//idclien
+        v.setFecha(""); //Fecha
+        v.setSubtotal(sub);//sub 
+        v.setTotal(AT); //AT
+        //ven.guardarVenta(v);
+        for(int i=0;  i <listDetVenta.size(); i++){
+            System.out.println(listDetVenta.get(i).getCant());
+            System.out.println(listDetVenta.get(i).getIdProducto());
+            System.out.println(listDetVenta.get(i).getIdVenta());
+            System.out.println(listDetVenta.get(i).getTotal());
+        }
 
-
+    }//GEN-LAST:event_btnGuardarventaActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarP;
@@ -482,8 +521,8 @@ public class ventasAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel btnRegisto;
     private javax.swing.JLabel btnVenta;
     private javax.swing.JTextField entryBP;
-    private javax.swing.JTextField entryCI;
     private javax.swing.JTextField entrycant;
+    private javax.swing.JTextField entrycedu;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -504,7 +543,7 @@ public class ventasAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel txtCell;
     private javax.swing.JLabel txtDirec;
     private javax.swing.JLabel txtIVA;
-    private javax.swing.JLabel txtNombre;
+    private javax.swing.JLabel txtNomb;
     private javax.swing.JLabel txtSubTotal;
     private javax.swing.JLabel txtTotal;
     // End of variables declaration//GEN-END:variables
