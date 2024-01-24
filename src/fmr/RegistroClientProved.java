@@ -14,9 +14,12 @@ import florma.usuario;
  */
 public class RegistroClientProved extends javax.swing.JFrame {
  rl_usuario d ;
-    /**
-     * Creates new form RegistroClientProved
-     */
+   usuario uss;
+
+    public void AbsUser(usuario c) {
+        this.uss = c;
+        //txtCaje.setText(c.getApellidoPaterno()+" "+c.getApellidoMaterno()+" "+c.getNombres());
+    }
     public RegistroClientProved() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -127,56 +130,26 @@ public class RegistroClientProved extends javax.swing.JFrame {
 
         entryCorreo.setBackground(new java.awt.Color(255, 204, 255));
         entryCorreo.setBorder(null);
-        entryCorreo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryCorreoActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryCorreo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 360, 270, 30));
 
         entryDirec.setBackground(new java.awt.Color(255, 204, 255));
         entryDirec.setBorder(null);
-        entryDirec.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryDirecActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryDirec, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 210, 270, 30));
 
         entryApellP.setBackground(new java.awt.Color(255, 204, 255));
         entryApellP.setBorder(null);
-        entryApellP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryApellPActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryApellP, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 270, 30));
 
         entryApellM.setBackground(new java.awt.Color(255, 204, 255));
         entryApellM.setBorder(null);
-        entryApellM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryApellMActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryApellM, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 270, 30));
 
         entryNomb.setBackground(new java.awt.Color(255, 204, 255));
         entryNomb.setBorder(null);
-        entryNomb.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryNombActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryNomb, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 270, 30));
 
         entryCell.setBackground(new java.awt.Color(255, 204, 255));
         entryCell.setBorder(null);
-        entryCell.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryCellActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryCell, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 290, 270, 30));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 270, 10));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 270, 10));
@@ -188,11 +161,6 @@ public class RegistroClientProved extends javax.swing.JFrame {
 
         entryCi.setBackground(new java.awt.Color(255, 204, 255));
         entryCi.setBorder(null);
-        entryCi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryCiActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryCi, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 270, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
@@ -237,34 +205,6 @@ public class RegistroClientProved extends javax.swing.JFrame {
         
        d.guardarUsuario(au);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void entryCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCorreoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryCorreoActionPerformed
-
-    private void entryDirecActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryDirecActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryDirecActionPerformed
-
-    private void entryApellPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryApellPActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryApellPActionPerformed
-
-    private void entryApellMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryApellMActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryApellMActionPerformed
-
-    private void entryNombActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryNombActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryNombActionPerformed
-
-    private void entryCellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCellActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryCellActionPerformed
-
-    private void entryCiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCiActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryCiActionPerformed
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
            this.setVisible(false);

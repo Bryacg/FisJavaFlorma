@@ -11,17 +11,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author elcar
- */
+
 public class rl_usuario {
     conexion cn = new conexion();
 
     public rl_usuario() {
     }
-    
-    
+     
     public void guardarUsuario(usuario cp){
         
         try {
@@ -138,17 +134,17 @@ public class rl_usuario {
        return listaa;
     }
      
-     
-     public usuario BuscarCliente2(String ced) {
+     public usuario BuscarCliente2(String ced, int rol) {
     
           usuario a = new usuario();
     try {
         // Utilizar un PreparedStatement y un parámetro para evitar problemas de seguridad
-        String query = "SELECT * FROM usuario WHERE Ci = ?";
+        String query = "SELECT * FROM usuario WHERE Ci = ? AND Rol = ?";
         PreparedStatement ps = cn.Conectar().prepareStatement(query);
         
         // Establecer el valor del parámetro
         ps.setString(1, ced);
+        ps.setInt(2, rol);
 
         ResultSet rs = ps.executeQuery();
         
@@ -178,6 +174,4 @@ public class rl_usuario {
 
     return a;
 }
-
-    
 }

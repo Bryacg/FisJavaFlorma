@@ -7,6 +7,7 @@ import dao.rl_compra;
 import dao.rl_producto;
 import dao.rl_usuario;
 import dao.rl_venta;
+import florma.usuario;
 import florma.venta;
 import javax.swing.table.*;
 
@@ -16,10 +17,12 @@ public class ventInventarioVentas extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
     rl_venta ven = new rl_venta();
    
-//    public void llenarC(){
-//        rl_usuario rero = new rl_usuario();
-//        
-//    }
+usuario uss;
+
+    public void AbsUser(usuario c) {
+        this.uss = c;
+        //txtCaje.setText(c.getApellidoPaterno()+" "+c.getApellidoMaterno()+" "+c.getNombres());
+    }
       
      public void RefrescarVenta(){
          // DefaultTableModel modelo = new DefaultTableModel();
@@ -281,30 +284,35 @@ public class ventInventarioVentas extends javax.swing.JFrame {
     private void btnInvntarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInvntarioMouseClicked
          this.setVisible(false);
           ventInventarioVentas c = new ventInventarioVentas();
+          c.AbsUser(uss);
           c.setVisible(true);
     }//GEN-LAST:event_btnInvntarioMouseClicked
 
     private void btnRegistoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistoMouseClicked
             this.setVisible(false);
           ventRegistroc r= new ventRegistroc();
+          r.AbsUser(uss);
           r.setVisible(true);
     }//GEN-LAST:event_btnRegistoMouseClicked
 
     private void btnCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCompraMouseClicked
         this.setVisible(false);
           ventCompra c= new ventCompra();
+          c.AbsUserC(uss);
           c.setVisible(true);
     }//GEN-LAST:event_btnCompraMouseClicked
 
     private void btnVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentaMouseClicked
         this.setVisible(false);
         ventasAdmin c =new ventasAdmin();
+        c.AbsUser(uss);
         c.setVisible(true);
     }//GEN-LAST:event_btnVentaMouseClicked
 
     private void btnClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClienteMouseClicked
        ventInventarioProovedor venp =new ventInventarioProovedor();
            venp.setVisible(true);
+           venp.AbsUser(uss);
            this.setVisible(false);
       
     }//GEN-LAST:event_btnClienteMouseClicked
@@ -312,12 +320,14 @@ public class ventInventarioVentas extends javax.swing.JFrame {
     private void btnProvedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProvedorMouseClicked
     ventInventarioProovedor venp =new ventInventarioProovedor();
            venp.setVisible(true);
+           venp.AbsUser(uss);
            this.setVisible(false);
     }//GEN-LAST:event_btnProvedorMouseClicked
 
     private void btnVentasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentasMouseClicked
       ventInventarioVentas venp =new ventInventarioVentas();
            venp.setVisible(true);
+           venp.AbsUser(uss);
            this.setVisible(false);
        
     }//GEN-LAST:event_btnVentasMouseClicked
@@ -325,12 +335,14 @@ public class ventInventarioVentas extends javax.swing.JFrame {
     private void btnComprasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnComprasMouseClicked
         ventInventarioCompras venp =new ventInventarioCompras();
            venp.setVisible(true);
+           venp.AbsUser(uss);
            this.setVisible(false);
     }//GEN-LAST:event_btnComprasMouseClicked
 
     private void btnProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductoMouseClicked
         ventInventarioProducto venp =new ventInventarioProducto();
            venp.setVisible(true);
+           venp.AbsUser(uss);
            this.setVisible(false);
         
         

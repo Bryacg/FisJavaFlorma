@@ -18,12 +18,12 @@ public class rl_compra {
     public void guardarCompra(compra cp){
         
         try {
-            String sqlInsert = "INSERT INTO compra(idCajero_admin,IdProvedor,Fecha,Total) VALUES(?,?,?,?)";
+            String sqlInsert = "INSERT INTO compra(idCajero_admin,IdProvedor,Fecha,Total) VALUES(?,?,CURDATE(),?)";
             PreparedStatement ps = cn.Conectar().prepareStatement(sqlInsert);
             ps.setInt(1, cp.getIdAdmin());
             ps.setInt(2,cp.getIdProovedor());
-            ps.setString(3,cp.getFecha());
-            ps.setDouble(4,cp.getTotal());
+            //ps.setString(3,cp.getFecha());
+            ps.setDouble(3,cp.getTotal());
             
             ps.execute();
             ps.close();
@@ -61,5 +61,30 @@ public class rl_compra {
        }
        return listaa;
     }
+    
+    public int obtenerIdCompraRecienGuardada() {
+    int idCompra = 0;
+
+    try {
+        // Utilizar un PreparedStatement y un parámetro para evitar problemas de seguridad
+        String query = "SELECT MAX(IdCompra) AS maxId FROM compra";
+        PreparedStatement ps = cn.Conectar().prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            idCompra = rs.getInt("maxId");
+        }
+
+        // Cerrar recursos adecuadamente
+        rs.close();
+        ps.close();
+        cn.Desconectar();
+
+    } catch (SQLException ex) {
+        Logger.getLogger(rl_usuario.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return idCompra;
+}
     
 }

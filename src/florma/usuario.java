@@ -1,9 +1,6 @@
 package florma;
 
-/**
- *
- * @author elcar
- */
+
 public class usuario {
     private int idPersona;
     private String Ci;

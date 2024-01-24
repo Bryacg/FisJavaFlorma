@@ -5,6 +5,7 @@
 package fmr;
 
 import dao.rl_caje_admin;
+import dao.rl_usuario;
 import florma.usuario;
 
 /**
@@ -12,10 +13,13 @@ import florma.usuario;
  * @author elcar
  */
 public class RegistroCajeAdmin extends javax.swing.JFrame {
+usuario uss;
 
-    /**
-     * Creates new form RegistroClientProved
-     */
+    public void AbsUser(usuario c) {
+        this.uss = c;
+        //txtCaje.setText(c.getApellidoPaterno()+" "+c.getApellidoMaterno()+" "+c.getNombres());
+    }
+    
     public RegistroCajeAdmin() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -135,38 +139,18 @@ public class RegistroCajeAdmin extends javax.swing.JFrame {
 
         entryC.setBackground(new java.awt.Color(255, 204, 255));
         entryC.setBorder(null);
-        entryC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryCActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryC, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 340, 270, 30));
 
         entryD.setBackground(new java.awt.Color(255, 204, 255));
         entryD.setBorder(null);
-        entryD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryDActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryD, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 190, 270, 30));
 
         entryAP.setBackground(new java.awt.Color(255, 204, 255));
         entryAP.setBorder(null);
-        entryAP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryAPActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryAP, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 270, 30));
 
         entryAM.setBackground(new java.awt.Color(255, 204, 255));
         entryAM.setBorder(null);
-        entryAM.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryAMActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 270, 30));
 
         entryN.setBackground(new java.awt.Color(255, 204, 255));
@@ -196,11 +180,6 @@ public class RegistroCajeAdmin extends javax.swing.JFrame {
 
         entryci.setBackground(new java.awt.Color(255, 204, 255));
         entryci.setBorder(null);
-        entryci.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryciActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryci, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, 270, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
@@ -228,20 +207,10 @@ public class RegistroCajeAdmin extends javax.swing.JFrame {
 
         entryCO.setBackground(new java.awt.Color(255, 204, 255));
         entryCO.setBorder(null);
-        entryCO.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryCOActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryCO, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 400, 270, 30));
 
         entryU.setBackground(new java.awt.Color(255, 204, 255));
         entryU.setBorder(null);
-        entryU.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryUActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryU, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 400, 270, 30));
         jPanel1.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 430, 270, 10));
         jPanel1.add(jSeparator9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 430, 270, 10));
@@ -264,6 +233,7 @@ public class RegistroCajeAdmin extends javax.swing.JFrame {
 
     private void btnGuardarCAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarCAActionPerformed
         usuario u= new usuario();
+         rl_usuario d = new rl_usuario();
         rl_caje_admin g = new rl_caje_admin();
         u.setCi(entryci.getText());
         u.setApellidoPaterno(entryAP.getText());
@@ -273,27 +243,15 @@ public class RegistroCajeAdmin extends javax.swing.JFrame {
         u.setDireccion(entryD.getText());
         u.setTelefono(entryT.getText());
         u.setCorreo(entryC.getText());
+        d.guardarUsuario(u);
         System.out.println(u.getRol());
+        
+        int ur = g.obtenerIdUsuarioRecienGuardada();
+        g.guardarCajeAdmin(entryU.getText(),entryCO.getText(),ur);
         
         
         
     }//GEN-LAST:event_btnGuardarCAActionPerformed
-
-    private void entryCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryCActionPerformed
-
-    private void entryDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryDActionPerformed
-
-    private void entryAPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryAPActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryAPActionPerformed
-
-    private void entryAMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryAMActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryAMActionPerformed
 
     private void entryNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryNActionPerformed
         // TODO add your handling code here:
@@ -303,21 +261,9 @@ public class RegistroCajeAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_entryTActionPerformed
 
-    private void entryciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryciActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryciActionPerformed
-
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
            this.setVisible(false);
     }//GEN-LAST:event_jLabel10MouseClicked
-
-    private void entryCOActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryCOActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryCOActionPerformed
-
-    private void entryUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryUActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryUActionPerformed
 
     /**
      * @param args the command line arguments

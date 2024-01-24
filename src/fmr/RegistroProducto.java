@@ -6,6 +6,7 @@ package fmr;
 
 import dao.rl_producto;
 import florma.producto;
+import florma.usuario;
 
 /**
  *
@@ -13,9 +14,12 @@ import florma.producto;
  */
 public class RegistroProducto extends javax.swing.JFrame {
 
-    /**
-     * Creates new form RegistroClientProved
-     */
+    usuario uss;
+
+    public void AbsUser(usuario c) {
+        this.uss = c;
+        //txtCaje.setText(c.getApellidoPaterno()+" "+c.getApellidoMaterno()+" "+c.getNombres());
+    }
     public RegistroProducto() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -93,29 +97,14 @@ public class RegistroProducto extends javax.swing.JFrame {
 
         entryPC.setBackground(new java.awt.Color(255, 204, 255));
         entryPC.setBorder(null);
-        entryPC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryPCActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryPC, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 730, 30));
 
         entryPV.setBackground(new java.awt.Color(255, 204, 255));
         entryPV.setBorder(null);
-        entryPV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryPVActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryPV, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 710, 30));
 
         entryS.setBackground(new java.awt.Color(255, 204, 255));
         entryS.setBorder(null);
-        entryS.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entrySActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryS, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 730, 30));
         jPanel1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 670, 10));
         jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 670, 10));
@@ -124,11 +113,6 @@ public class RegistroProducto extends javax.swing.JFrame {
 
         entryN.setBackground(new java.awt.Color(255, 204, 255));
         entryN.setBorder(null);
-        entryN.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                entryNActionPerformed(evt);
-            }
-        });
         jPanel1.add(entryN, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 710, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI Black", 1, 18)); // NOI18N
@@ -170,22 +154,6 @@ public class RegistroProducto extends javax.swing.JFrame {
       //System.out.println( p.getNombre()+" \n"+ p.getPrecioCompra()+" \n"+p.getPrecioVenta()+" \n"+ p.getStock());
         rp.guardarProducto(p);
     }//GEN-LAST:event_btnGuardarPActionPerformed
-
-    private void entryPCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryPCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryPCActionPerformed
-
-    private void entryPVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryPVActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryPVActionPerformed
-
-    private void entrySActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrySActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entrySActionPerformed
-
-    private void entryNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entryNActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_entryNActionPerformed
 
     private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
            this.setVisible(false);

@@ -23,16 +23,14 @@ public class rl_venta {
     
     
     public void guardarVenta(venta cp){
-        
-        try {
-            String sqlInsert = "INSERT INTO venta(IdCliente,IdCajero,Fecha,SubTotal,Total) VALUES(?,?,?,?,?)";
+         try {
+            String sqlInsert = "INSERT INTO venta(IdCliente,idCajero_admin,Fecha,SubTotal,Total) VALUES(?,?,CURDATE(),?,?)";
             PreparedStatement ps = cn.Conectar().prepareStatement(sqlInsert);
             ps.setInt(1, cp.getIdCliente());
             ps.setInt(2,cp.getIdCajero());
-            ps.setString(3,cp.getFecha());
-            ps.setDouble(4,cp.getSubtotal());
-            ps.setDouble(5,cp.getTotal());
-            
+            //ps.setString(3,cp.getFecha());
+            ps.setDouble(3,cp.getSubtotal());
+            ps.setDouble(4,cp.getTotal());
             ps.execute();
             ps.close();
             ps = null;
@@ -70,4 +68,54 @@ public class rl_venta {
        }
        return listaa;
     }
+    
+    public int obtenerCantidadDeVentas() {
+    int cantidadVentas = 0;
+
+    try {
+        // Utilizar un PreparedStatement y un parámetro para evitar problemas de seguridad
+        String query = "SELECT COUNT(*) AS cantidad FROM venta";
+        PreparedStatement ps = cn.Conectar().prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            cantidadVentas = rs.getInt("cantidad");
+        }
+
+        // Cerrar recursos adecuadamente
+        rs.close();
+        ps.close();
+        cn.Desconectar();
+
+    } catch (SQLException ex) {
+        Logger.getLogger(rl_usuario.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return cantidadVentas;
+}
+    
+    public int obtenerIdVentaRecienGuardada() {
+    int idVenta = 0;
+
+    try {
+        // Utilizar un PreparedStatement y un parámetro para evitar problemas de seguridad
+        String query = "SELECT MAX(Idventa) AS maxId FROM venta";
+        PreparedStatement ps = cn.Conectar().prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            idVenta = rs.getInt("maxId");
+        }
+
+        // Cerrar recursos adecuadamente
+        rs.close();
+        ps.close();
+        cn.Desconectar();
+
+    } catch (SQLException ex) {
+        Logger.getLogger(rl_usuario.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return idVenta;
+}
 }

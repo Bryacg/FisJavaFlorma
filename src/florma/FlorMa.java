@@ -1,6 +1,6 @@
 package florma;
 
-import fmr.Login;
+import fmr.Loginn;
 
 /**
  *
@@ -13,7 +13,7 @@ public class FlorMa {
      */
     public static void main(String[] args) {
         
-        Login vent = new Login();
+        Loginn vent = new Loginn();
         conexion conec = new conexion();
         conec.Conectar();
         

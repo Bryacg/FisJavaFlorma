@@ -4,15 +4,20 @@
  */
 package fmr;
 
+import florma.usuario;
+
 /**
  *
  * @author elcar
  */
 public class ventRegistroc extends javax.swing.JFrame {
 
-    /**
-     * Creates new form ventas
-     */
+   usuario uss;
+
+    public void AbsUser(usuario c) {
+        this.uss = c;
+        //txtCaje.setText(c.getApellidoPaterno()+" "+c.getApellidoMaterno()+" "+c.getNombres());
+    }
     public ventRegistroc() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -226,39 +231,46 @@ public class ventRegistroc extends javax.swing.JFrame {
     private void btnInvntarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnInvntarioMouseClicked
          this.setVisible(false);
           ventInventario c = new ventInventario();
+          c.AbsUser(uss);
           c.setVisible(true);
     }//GEN-LAST:event_btnInvntarioMouseClicked
 
     private void btnRegistoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistoMouseClicked
            this.setVisible(false);
           ventRegistroc c= new ventRegistroc();
+          c.AbsUser(uss);
           c.setVisible(true);
     }//GEN-LAST:event_btnRegistoMouseClicked
 
     private void btnCompraMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCompraMouseClicked
         this.setVisible(false);
           ventCompra c= new ventCompra();
+          c.AbsUserC(uss);
           c.setVisible(true);
     }//GEN-LAST:event_btnCompraMouseClicked
 
     private void btnVentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVentaMouseClicked
         this.setVisible(false);
         ventasAdmin c =new ventasAdmin();
+        c.AbsUser(uss);
         c.setVisible(true);
     }//GEN-LAST:event_btnVentaMouseClicked
 
     private void btnCAMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCAMouseClicked
        RegistroCajeAdmin c = new RegistroCajeAdmin();
+       c.AbsUser(uss);
         c.setVisible(true);
     }//GEN-LAST:event_btnCAMouseClicked
 
     private void btnCPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCPMouseClicked
         RegistroClientProved c = new RegistroClientProved();
+        c.AbsUser(uss);
         c.setVisible(true);
     }//GEN-LAST:event_btnCPMouseClicked
 
     private void btnPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPMouseClicked
        RegistroProducto c = new RegistroProducto();
+       c.AbsUser(uss);
         c.setVisible(true);
     }//GEN-LAST:event_btnPMouseClicked
 

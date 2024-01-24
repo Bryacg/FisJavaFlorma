@@ -25,17 +25,17 @@ public class ventasAdmin extends javax.swing.JFrame {
     DefaultTableModel modelo = new DefaultTableModel();
     ArrayList<detalleventa> listDetVenta = new ArrayList<detalleventa>();
     
-    conexion cn = new conexion();
+    //conexion cn = new conexion();
     rl_producto pro = new rl_producto();
     rl_venta ven = new rl_venta();
     rl_detalleventa dven = new rl_detalleventa();
     rl_usuario user = new rl_usuario();
     //rl_caje_admin cja = new rl_caje_admin();
     
-    usuario uss;
-    venta v = new venta();
+     venta v = new venta();
     int idclien,nv;
     double iv, sub,sum, AT = 0;
+    usuario uss;
 
     public void AbsUser(usuario c) {
         this.uss = c;
@@ -492,24 +492,28 @@ public class ventasAdmin extends javax.swing.JFrame {
     private void btnInvntarioMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnInvntarioMouseClicked
         this.setVisible(false);
         ventInventario i = new ventInventario();
+        i.AbsUser(uss);
         i.setVisible(true);
     }//GEN-LAST:event_btnInvntarioMouseClicked
 
     private void btnRegistoMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnRegistoMouseClicked
         this.setVisible(false);
         ventRegistroc r = new ventRegistroc();
+        r.AbsUser(uss);
         r.setVisible(true);
     }//GEN-LAST:event_btnRegistoMouseClicked
 
     private void btnCompraMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnCompraMouseClicked
         this.setVisible(false);
         ventCompra c = new ventCompra();
+        c. AbsUserC( uss);
         c.setVisible(true);
     }//GEN-LAST:event_btnCompraMouseClicked
 
     private void btnVentaMouseClicked(MouseEvent evt) {//GEN-FIRST:event_btnVentaMouseClicked
         this.setVisible(false);
         ventasAdmin v = new ventasAdmin();
+        v.AbsUser(uss);
         v.setVisible(true);
     }//GEN-LAST:event_btnVentaMouseClicked
 

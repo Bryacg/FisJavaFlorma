@@ -23,10 +23,10 @@ public class rl_detalleventa {
     }
     
     
-    public void guardarCompra(detalleventa dtv){
+    public void guardarDetalleVenta(detalleventa dtv){
         
         try {
-            String sqlInsert = "INSERT INTO detalleventa(Idventa,IdProducto,cant,total) VALUES(?,?,?,?)";
+            String sqlInsert = "INSERT INTO detalleventa(IdVenta,IdProducto,cant,total) VALUES(?,?,?,?)";
             PreparedStatement ps = cn.Conectar().prepareStatement(sqlInsert);
             ps.setInt(1, dtv.getIdVenta());
             ps.setInt(2,dtv.getIdProducto());

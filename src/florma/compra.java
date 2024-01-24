@@ -53,5 +53,6 @@ public class compra {
     public void setTotal(double Total) {
         this.Total = Total;
     }
-    
+
+   
 }
