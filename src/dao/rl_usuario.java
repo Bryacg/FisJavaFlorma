@@ -31,8 +31,6 @@ public class rl_usuario {
             ps.setString(6,cp.getDireccion());
             ps.setString(7,cp.getTelefono());
             ps.setString(8,cp.getCorreo());
-            
-            
             ps.execute();
             ps.close();
             ps = null;
@@ -159,9 +157,7 @@ public class rl_usuario {
             a.setDireccion(rs.getString("Direccion"));
             a.setTelefono(rs.getString("telefono"));
             a.setCorreo(rs.getString("correo"));
-            
-           
-        }
+         }
 
         // Cerrar recursos adecuadamente
         rs.close();
