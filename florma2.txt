@@ -1,0 +1,120 @@
+# Creacion de la base de Datos SisAreopuerto
+
+Create database florma2;
+use florma2;
+show tables;
+
+# Creacion de las tablas USUARIOS VENTA COMPRA0
+
+Create table usuario(
+	idPersona int primary key auto_increment,
+	Ci Varchar(10) not null,
+	ApellidoPaterno Varchar(50) not null,
+	ApellidoMaterno Varchar(50) not null,
+	Nombres Varchar(50) not null,
+	Rol int not null,
+	Direccion Varchar(150),
+	telefono Varchar(15),
+	correo Varchar(150)
+)ENGINE=INNODB;
+
+Create table cajero_admin(
+	idCajero_admin int primary key,
+	usuario Varchar(15) not null,
+	contrasenia Varchar(15) not null,
+	FOREIGN KEY(idCajero_admin) REFERENCES usuario(idPersona))ENGINE=INNODB;
+
+############################################################
+Create table producto(
+	Codigo int primary key auto_increment,
+	Nombre Varchar(50) not null,
+	PrecioCompra double not null,
+	PrecioVenta double not null,
+	Stock int not null)ENGINE=INNODB;
+
+##########################################################################################
+Create table venta(
+	Idventa int primary key auto_increment,
+	IdCliente int not null,
+	idCajero_admin int not null,
+	Fecha date not null,
+	SubTotal double not null,
+	Total double not null,
+	FOREIGN KEY(idCajero_admin) REFERENCES cajero_admin(idCajero_admin),
+	FOREIGN KEY(IdCliente) REFERENCES usuario(idPersona))ENGINE=INNODB;
+
+##########################################################################################
+Create table compra(
+	IdCompra int primary key auto_increment,
+	idCajero_admin int not null,
+	IdProvedor int not null,
+	Fecha date not null,
+	Total double not null,
+	FOREIGN KEY(idCajero_admin) REFERENCES cajero_admin(idCajero_admin),
+	FOREIGN KEY(IdProvedor) REFERENCES usuario(idPersona))ENGINE=INNODB;
+
+Create table detallecompra(
+	CodDVenta int primary key auto_increment,
+	IdCompra int not null,
+	IdProducto int not null,
+	cant int not null,
+	Total double not null,
+ 	FOREIGN KEY(IdCompra) REFERENCES compra(IdCompra),
+	FOREIGN KEY(IdProducto) REFERENCES producto(Codigo))ENGINE=INNODB;
+
+##########################################################################################
+INSERT INTO usuario (Ci, ApellidoPaterno, ApellidoMaterno, Nombres, Rol, Direccion, Telefono, Correo)
+VALUES('1234567890', 'Admin', 'Admin', 'Admin', 4, 'Calle 123', '555-1234', 'juan.lopez@example.com');
+INSERT INTO cajero_admin (idCajero_admin,usuario,contrasenia)
+VALUES(1, 'Admin', 'Admin');
+
+##########################################################################################
+Create table detalleventa
+(
+	CodDVenta int primary key auto_increment,
+	IdVenta int not null,
+	IdProducto int not null,
+	cant int not null,
+	FOREIGN KEY(IdVenta) REFERENCES venta(Idventa),
+	FOREIGN KEY(IdProducto) REFERENCES producto(Codigo))ENGINE=INNODB;
+DELIMITER //
+
+CREATE TRIGGER before_insert_venta
+BEFORE INSERT ON detalleventa
+FOR EACH ROW
+BEGIN
+    DECLARE cantidad_vendida INT;
+    
+    SELECT cant INTO cantidad_vendida
+    FROM detalleventa
+    WHERE CodDVenta = NEW.CodDVenta;
+    
+    UPDATE producto
+    SET Stock = Stock - cantidad_vendida
+    WHERE Codigo = NEW.IdProducto;
+    
+END //
+
+DELIMITER ;
+##########################################################################################
+
+DELIMITER //
+
+CREATE TRIGGER after_insert_compra
+AFTER INSERT ON detallecompra
+FOR EACH ROW
+BEGIN
+    DECLARE cantidad_comprada INT;
+    
+    SELECT cant INTO cantidad_comprada
+    FROM detallecompra
+    WHERE CodDVenta = NEW.CodDVenta;
+    
+    UPDATE producto
+    SET Stock = Stock + cantidad_comprada
+    WHERE Codigo = NEW.IdProducto;
+    
+END //
+
+DELIMITER ;
+
